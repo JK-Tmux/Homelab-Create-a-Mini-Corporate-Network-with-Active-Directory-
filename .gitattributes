@@ -6,3 +6,7 @@
 
 # Force Markdown recognition
 *.md linguist-language=Markdown
+
+# Count Markdown files in language stats
+*.md linguist-detectable=true
+*.md linguist-language=Markdown
