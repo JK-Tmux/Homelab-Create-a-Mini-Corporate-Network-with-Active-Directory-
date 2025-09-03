@@ -1,4 +1,4 @@
-# <ins> Homelab: Create a Mini Corporate Network with Active Directory </ins>  
+## <ins> Homelab: Create a Mini Corporate Network with Active Directory </ins>  
 
 <img src="images/Homelab VM w_ AD DS - White background.png" alt="Homelab VM w_ AD DS - White background CD" width="1000"/>  
 
