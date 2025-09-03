@@ -1,20 +1,25 @@
-# <ins> Homelab w/ Active Directory </ins>  
-
-# JANI don't forget to do the initial steps for setting up Win Server 2019 in VirtualBox, you missed that step. 
+# <ins> Homelab: Create a Mini Corporate Network with Active Directory </ins>  
 
 Download Windows Server 2019 ISO: https://www.microsoft.com/en-us/evalcenter/download-windows-server-2019  
 Download Windows 10 ISO: https://www.microsoft.com/en-us/software-download/windows10 [I will walk through the download process when I get to it or you can download now]
 
 ---
 
-Open VirtualBox and install Windows Server 2019. Click **New** to create a new VM. [Be sure to install the Desktop Experience version so you have a GUI available.] 
+# <ins> Installing Windows Server 2019 </ins>  
 
-<ins> After Windows Server 2019 installation, complete the following steps to improve performance: </ins>  
+- Open VirtualBox and click **New**  
+- Enter a name for the server [I named it "Domain Controller" in accordance with best practices]  
+- Select the **Windows Server 2019 ISO image**
+- Under **Edition**, select **Windows Server 2019 Standard Evaluation (Desktop Experience)** to ensure the server installs with a GUI  
+- Click **Finish** and allow the VM to start [This process may take some time]  
 
-1. From the top menu, select **Devices** → **Insert Guest Additions CD Image**  
-2. Open **File Explorer** and double-click **CD Drive (D:) VirtualBox Guest Additions**  
-3. Run **VBoxWindowsAdditions-amd64** to begin installation  
-4. When prompted, do not restart immediately. Instead, power off the VM  
+<ins> **After Windows Server 2019 installation, complete the following steps to improve performance:** </ins> 
+
+- From the VirtualBox menu, select **Devices** → and click **Insert Guest Additions CD Image**  
+- Open **File Explorer**, click on **This PC**, and double-click "CD Drive (D:) VirtualBox Guest Additions"  
+- Double click and run **VBoxWindowsAdditions-amd64** to install the VirtualBox enhancements  
+- When prompted, do not restart immediately. Instead, power off the VM  
+  
 
 <img src="images/GuestAdditions.png" alt="GuestAdditions CD" width="450"/>  
 
@@ -22,8 +27,8 @@ Open VirtualBox and install Windows Server 2019. Click **New** to create a new V
 
 In VirtualBox, select the VM and click the **Settings** cog.  
 
-1. Go to **Network** → **Adapter 2**  
-2. Check **Enable Network Adapter**  
+- Go to **Network** → **Adapter 2**  
+- Check **Enable Network Adapter**  
 
 <img src="images/Adapter2.png" alt="Adapter 2" width="450"/>  
 
@@ -35,9 +40,9 @@ Restart the VM.
 
 To prevent confusion, rename the virtual NICs with descriptive names. [I used External & Internal following best practice]
 
-1. Open the Run dialog `Win + R`, type `ncpa.cpl`, and press Enter  
-2. Rename **Ethernet** to **External** (this adapter has internet access)  
-3. Rename **Ethernet 2** to **Internal** (this adapter is isolated from the internet)  
+- Open the Run dialog `Win + R`, type `ncpa.cpl`, and press Enter  
+- Rename **Ethernet** to **External** (this adapter has internet access)  
+- Rename **Ethernet 2** to **Internal** (this adapter is isolated from the internet)  
 
 <img src="images/External_Internal.png" alt="External_Internal vNICs" width="450"/>  
 
@@ -47,9 +52,9 @@ To prevent confusion, rename the virtual NICs with descriptive names. [I used Ex
 
 It is best practice to rename the computer for easier identification in your environment.  
 
-1. Right-click the **Start** menu  
-2. Select **System**  
-3. Click **Rename this PC**  
+- Right-click the **Start** menu  
+- Select **System**  
+- Click **Rename this PC**  
 
 [I used the name **Domain Controller**]
 
@@ -59,15 +64,15 @@ It is best practice to rename the computer for easier identification in your env
 
 Configure a static IP address on the internal network adapter:  
 
-1. Open the Run dialog (`Win + R`), type `ncpa.cpl`, and press Enter  
-2. Right-click the **Internal** adapter and select **Properties**  
-3. Select **Internet Protocol Version 4 (TCP/IPv4)** and click **Properties**  
-4. Choose **Use the following IP address:** and configure as follows:  
+- Open the Run dialog (`Win + R`), type `ncpa.cpl`, and press Enter  
+- Right-click the **Internal** adapter and select **Properties**  
+- Select **Internet Protocol Version 4 (TCP/IPv4)** and click **Properties**  
+- Choose **Use the following IP address:** and configure as follows:  
    - IP Address: `192.168.100.10`  [Come up with your own if preffered]
    - Subnet Mask: `255.255.255.0`  
    - Default Gateway: *(leave blank)*  
-5. Choose **Use the following DNS server addresses:** and enter `127.0.0.1`  
-6. Click **OK**, then apply the changes  
+- Choose **Use the following DNS server addresses:** and enter `127.0.0.1`  
+- Click **OK**, then apply the changes  
 
 <img src="images/DC_IP_ADDR.png" alt="DC_IP_ADDR" width="450"/>  
 
@@ -75,12 +80,12 @@ Configure a static IP address on the internal network adapter:
 
 # <ins> (AD DS) Active Directory Domain Services Setup </ins>  
 
-1. Open **Server Manager** (search if it is not already open)  
-2. Under **Configure this local server**, select **Add roles and features**  
-3. Click **Next** twice  
-4. From the **Server Pool**, select your server and click **Next**  
-5. Under **Select server roles**, check **Active Directory Domain Services**  
-6. Click **Next** twice, then click **Install**  
+- Open **Server Manager** (search if it is not already open)  
+- Under **Configure this local server**, select **Add roles and features**  
+- Click **Next** twice  
+- From the **Server Pool**, select your server and click **Next**  
+- Under **Select server roles**, check **Active Directory Domain Services**  
+- Click **Next** twice, then click **Install**  
 
 The installation will take several minutes:  
 
@@ -92,15 +97,16 @@ Once installation completes, click **Close**.
 
 # <ins> Promoting Server to Domain Controller </ins>  
 
-1. In **Server Manager**, click the **Notifications** flag in the top-right corner (yellow icon)  
-   <img src="images/yellow.png" alt="yellow flag" width="50"/>  
-2. Select **Promote this server to a domain controller**  
-3. Choose **Add a new forest**  
-4. Enter a domain name (I used `domain.com`)  
-5. Set and confirm a Directory Services Restore Mode (DSRM) password, then click **Next**  
-6. Ignore any warnings and continue clicking **Next** until the **Install** button appears  
-7. Click **Install** (this step will take several minutes)  
-8. The VM will automatically restart once installation completes *(this will take a long time)*  
+- In **Server Manager**, click the **Notifications** flag in the top-right corner (yellow icon)  
+<img src="images/yellow.png" alt="yellow flag" width="50"/> <br>
+
+- Select **Promote this server to a domain controller**  
+- Choose **Add a new forest**  
+- Enter a domain name (I used `domain.com`)  
+- Set and confirm a Directory Services Restore Mode (DSRM) password, then click **Next**  
+- Ignore any warnings and continue clicking **Next** until the **Install** button appears  
+- Click **Install** (this step will take several minutes)  
+- The VM will automatically restart once installation completes *(this will take a long time)*  
 
 <img src="images/AD_DS_Install2.png" alt="AD_DS_Install2" width="450"/>  
 
@@ -292,7 +298,7 @@ foreach ($u in $users) {
 
 *We are now ready to set up the Windows 10 client computer. It will obtain its IP address automatically from the DHCP server configured earlier.*  
 
-Download Windows 10 ISO: https://www.microsoft.com/en-us/software-download/windows10 [I will walk through the download process when I get to it, or you can download it now]  
+Download Windows 10 ISO: https://www.microsoft.com/en-us/software-download/windows10 
 
 - Navigate to the link above and click **Download Now**. This will download an executable named **MediaCreationTool_22H2.exe**. Double-click to run  
 - Click **Yes** → **Accept** → select "Create installation media for another PC" → **Next** → select "ISO file" → **Next**, then save it to your desired location [This may take some time]  
@@ -357,9 +363,42 @@ It should look similar to the example below:
 
 # <ins> Verifying DHCP Lease Assignment via the Domain Controller </ins>  
 
-- Minimize the Client VM and Maximize the DC VM 
-- From the **Server Manager** navigate to **Tools** on the top right and click **DHCP**
-- Expand the server option on the left (dc.domain.com) &rarr; expand **Scope** &rarr; and then click on **Address Leases**. You will now see the client computer listed. 
+*After joining the client to the domain, the next step is to verify that it has been properly assigned an IP lease by the DHCP server.*  
 
-<img src="images/client_AddressLease.png" alt="client_AddressLease" width="450"/> <br>  
+- Minimize the Client VM and maximize the DC VM  
+- In **Server Manager**, navigate to **Tools** (top right) and select **DHCP**  
+- Expand the server on the left (dc.domain.com) → expand **Scope** → select **Address Leases**. The client computer should now be listed with its assigned IP address  
 
+onetimepassword_client
+*This confirms that the Domain Controller is successfully providing IP leases to clients via DHCP and that the Windows 10 client is connected to the domain network.*  
+
+# <ins> Testing Client Access Through Domain User Accounts </ins>  
+
+*The final step is to verify that domain user accounts can successfully log in to the Windows 10 client. This ensures authentication is working correctly between the client and the Domain Controller.*  
+
+- Minimize the Domain Controller and maximize the Client VM  
+- If logged in, sign out. On the login screen, click **Other user** in the bottom-left corner  
+- Log in with one of the accounts created earlier (either manually or via the PowerShell script). The one-time password specified in the script is `P@ssword123!` [I used `ajohnson@domain.com` as the test user]  
+- Because the script enforces a one-time password, the user will be prompted to change it on first login [this follows best practices]. Click **OK** to proceed  
+
+<img src="images/onetimepassword_client.png" alt="onetimepassword_client" width="450"/> <br>  
+
+*At this stage, we have successfully built a functioning domain environment. The Windows 10 client represents an employee workstation, while the Domain Controller provides centralized authentication, DHCP, and network services—forming the foundation of a corporate network.*  
+
+# <ins> Conclusion </ins>  
+
+*By following this walkthrough, we have built a functional homelab environment that simulates the core infrastructure of a corporate network.*  
+
+### Accomplishments:  
+- Installed and configured **Windows Server 2019** as a Domain Controller  
+- Set up **Active Directory Domain Services (AD DS)** for centralized authentication  
+- Configured **RAS/NAT** for internal-to-external connectivity  
+- Installed and configured the **DHCP server** to automatically assign client IP addresses  
+- Created and managed **domain user accounts**, including an Admin account and bulk users via a PowerShell script  
+- Installed and configured a **Windows 10 client computer**  
+- Verified client connectivity, DHCP lease assignment, and successful domain authentication  
+
+### Outcome:  
+The Windows 10 client now represents an employee workstation, and the Domain Controller provides authentication, DHCP, and network services. Together, they form the foundation of a small-scale corporate network that can be expanded and customized for further learning.  
+
+*This environment can now serve as a platform to explore more advanced topics such as Group Policy Objects (GPOs), DNS, and security hardening practices.*  
