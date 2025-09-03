@@ -52,7 +52,7 @@ To prevent confusion, rename the virtual NICs with descriptive names. [I used Ex
 
 ---
 
-# <ins> Renaming of the PC </ins>  
+# <ins> Assigning a Server Name </ins>  
 
 It is best practice to rename the computer for easier identification in your environment.  
 
@@ -64,7 +64,7 @@ It is best practice to rename the computer for easier identification in your env
 
 ---
 
-# <ins> Change internal IP address </ins>  
+# <ins> Static IP Configuration for the Domain Controller </ins>  
 
 Configure a static IP address on the internal network adapter:  
 
@@ -117,7 +117,7 @@ Once installation completes, click **Close**.
 
 ---
 
-# <ins> Create Domain Admin Account </ins>  
+# <ins> Creating a Domain Admin User Account </ins>  
 
 - On the AD DS dashboard, select **Tools** in the top right corner  
 - Click **Active Directory Users and Computers** [be careful, there are a lot of options that look similar]  
@@ -152,7 +152,7 @@ Once installation completes, click **Close**.
 
 ---
 
-# <ins> Testing the Admin User </ins>  
+# <ins> Logging in with the Domain Admin Account </ins>  
 
 - To confirm the new admin account works, click the Windows icon in the bottom-left, select the user, and choose **Sign out**  
 - `Ctrl+Alt+Delete` might not function correctly inside the VM. To get around this click **Input** &rarr; **Keyboard** &rarr; **Insert Ctrl-Alt-Del** *OR press `Host+Del` [on my VM, Host is mapped to Right Ctrl so `ctrl+del`]*
@@ -230,7 +230,7 @@ Once installation completes, click **Close**.
 
 ---
 
-# <ins> Adding Test Users </ins>  
+# <ins> Adding Domain Users for Testing </ins>  
 
 *To make the environment more realistic and provide accounts for testing, we will add some sample users. One user will be created manually, and the rest will be added using a PowerShell script.*  
 
