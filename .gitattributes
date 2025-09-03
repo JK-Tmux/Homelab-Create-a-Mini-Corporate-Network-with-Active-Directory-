@@ -1,0 +1,5 @@
+# Force HTML recognition
+*.md linguist-language=HTML
+
+# Force PowerShell recognition
+*.ps1 linguist-language=PowerShell
