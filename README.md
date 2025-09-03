@@ -1,5 +1,9 @@
 # <ins> Homelab: Create a Mini Corporate Network with Active Directory </ins>  
 
+<img src="images/Homelab VM w_ AD DS - White background.png" alt="Homelab VM w_ AD DS - White background CD" width="1000"/>  
+
+---
+
 Download Windows Server 2019 ISO: https://www.microsoft.com/en-us/evalcenter/download-windows-server-2019  
 Download Windows 10 ISO: https://www.microsoft.com/en-us/software-download/windows10 [I will walk through the download process when I get to it or you can download now]
 
@@ -402,3 +406,5 @@ onetimepassword_client
 The Windows 10 client now represents an employee workstation, and the Domain Controller provides authentication, DHCP, and network services. Together, they form the foundation of a small-scale corporate network that can be expanded and customized for further learning.  
 
 *This environment can now serve as a platform to explore more advanced topics such as Group Policy Objects (GPOs), DNS, and security hardening practices.*  
+
+<img src="images/Homelab VM w_ AD DS - White background.png" alt="Homelab VM w_ AD DS - White background CD" width="700"/>  

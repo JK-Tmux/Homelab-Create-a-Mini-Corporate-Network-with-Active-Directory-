@@ -17,7 +17,7 @@ $users = @(
     @{Name="Julia Clark"; Given="Julia"; Surname="Clark"; Sam="jclark"; UPN="jclark@domain.com"}
 )
 
-# Common OU Path (adjust for your AD domain if you don't want it to go to default Users container)
+# Common OU Path (adjust for your AD domain if you don't want it to go to the default Users container)
 $ouPath = "CN=Users,DC=domain,DC=com"
 
 # Default password for all users (change to policy-compliant)
